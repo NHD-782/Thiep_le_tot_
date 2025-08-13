@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thiệp mời dự lễ tốt nghiệp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{ --gold:#d4af37; --gold-soft:#ffdf7f; }
+    body {
+      font-family: 'Playfair Display', serif;
+      background: radial-gradient(circle at top, #fff9ec, #f3ede4);
+      color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px) scale(0.95);} to { opacity: 1; transform: translateY(0) scale(1);} }
+    .card {
+      background: white;
+      padding: 44px 30px 34px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      max-width: 760px;
+      text-align: center;
+      border: 2px solid var(--gold);
+      position: relative; overflow: hidden;
+      animation: glow 3s infinite alternate, float 6s ease-in-out infinite;
+    }
+    @keyframes glow { from{ box-shadow:0 8px 30px rgba(212,175,55,.3);} to{ box-shadow:0 8px 40px rgba(212,175,55,.7);} }
+    @keyframes float { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-10px);} }
+    .card::before{ content:""; position:absolute; inset:-12px; border:4px double var(--gold); border-radius:25px; pointer-events:none; animation:borderGlow 4s infinite alternate }
+    @keyframes borderGlow { from{ border-color:var(--gold);} to{ border-color:var(--gold-soft);} }
+    h1{ font-family:'Great Vibes',cursive; color:#946800; font-size:3em; margin-bottom:8px; animation:fadeInTitle 2.5s ease-in-out }
+    @keyframes fadeInTitle { from{ opacity:0; transform:scale(.8);} to{ opacity:1; transform:scale(1);} }
+
+    /* COUNTDOWN */
+    .timer-wrap{ margin: 6px auto 22px; }
+    .timer-title{ font-style:italic; color:#5e4a1f; margin-bottom:10px }
+    .timer{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap }
+    .tile{ min-width:90px; padding:12px 14px; border-radius:14px; background:#fffaf0; border:1px solid rgba(212,175,55,.6); box-shadow:0 6px 16px rgba(0,0,0,.06); animation:tilePulse 4s ease-in-out infinite }
+    @keyframes tilePulse{ 0%,100%{ transform:translateY(0)} 50%{ transform:translateY(-2px)} }
+    .num{ font-size:28px; font-weight:700; color:#8b6a00; line-height:1 }
+    .label{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#7a5d00 }
+    .progress{ width:100%; max-width:560px; height:7px; background:#f0e6ca; border-radius:999px; margin:12px auto 0; overflow:hidden }
+    .bar{ height:100%; width:0; background:linear-gradient(90deg, #f6d365, #fda085); animation:grow 1s ease-out forwards }
+    @keyframes grow{ from{ width:0 } to{ width: var(--pct, 0%) } }
+
+    p.intro{ font-style:italic; font-size:1.2em; margin:12px 0 18px; color:#5e4a1f; animation:fadeIn 2.8s ease-in-out }
+    .info{ font-size:17px; line-height:1.9; background:#fffaf0; border-radius:12px; padding:18px 20px; border:1px dashed var(--gold); text-align:left; display:inline-block; animation:pulse 4s infinite }
+    @keyframes pulse{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.02)} }
+    .info strong{ color:#8b6a00 }
+    .footer{ margin-top:24px; font-size:15px; color:#5e5e5e; font-style:italic; animation:fadeIn 3.2s ease-in-out }
+  </style>
+</head>
+<body>
+  <div class="confetti"></div>
+  <div class="card">
+    <h1>Thiệp mời dự lễ tốt nghiệp</h1>
+
+    <!-- COUNTDOWN UI -->
+    <div class="timer-wrap">
+      <div class="timer-title">Đếm ngược đến lễ: <b>16:30 • 21/08/2025</b></div>
+      <div class="timer" id="timer">
+        <div class="tile"><div class="num" id="d">--</div><div class="label">Ngày</div></div>
+        <div class="tile"><div class="num" id="h">--</div><div class="label">Giờ</div></div>
+        <div class="tile"><div class="num" id="m">--</div><div class="label">Phút</div></div>
+        <div class="tile"><div class="num" id="s">--</div><div class="label">Giây</div></div>
+      </div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div id="timerNote" style="margin-top:8px; font-size:13px; color:#7a5d00"></div>
+    </div>
+
+    <p class="intro">Trân trọng mời bạn bè đến chung vui khoảnh khắc đáng nhớ này</p>
+    <div class="info">
+      <strong>Sinh viên:</strong> Nguyễn Hữu Đức<br>
+      <strong>Chuyên ngành:</strong> Công nghệ Thông tin và Truyền thông<br>
+      <strong>Thời gian:</strong> 16:30, Thứ Năm • 21/08/2025<br>
+      <strong>Địa điểm:</strong> Hội trường Nguyễn Văn Hiệu, tầng 8, nhà A21, 18 Hoàng Quốc Việt, Hà Nội<br>
+      <strong>Sau lễ:</strong> Chụp ảnh & giao lưu
+    </div>
+    <div class="footer">Sự hiện diện của bạn là niềm vui và vinh dự lớn đối với tôi!</div>
+  </div>
+
+  <script>
+    // Đặt mốc thời gian lễ tốt nghiệp theo múi giờ Việt Nam (+07:00)
+    const target = new Date('2025-08-21T16:30:00+07:00').getTime();
+    const created = Date.now();
+
+    function pad(n){ return n.toString().padStart(2,'0'); }
+
+    const dEl = document.getElementById('d');
+    const hEl = document.getElementById('h');
+    const mEl = document.getElementById('m');
+    const sEl = document.getElementById('s');
+    const bar = document.getElementById('bar');
+    const note = document.getElementById('timerNote');
+
+    // Tính phần trăm tiến trình trong ngày diễn ra sự kiện (từ 00:00 đến 16:30 ngày 21/08/2025)
+    function dayProgress(now){
+      const dayStart = new Date('2025-08-21T00:00:00+07:00').getTime();
+      const dayEnd = target; // 16:30
+      const clamped = Math.min(Math.max(now, dayStart), dayEnd);
+      const pct = ((clamped - dayStart) / (dayEnd - dayStart)) * 100;
+      return Math.max(0, Math.min(100, pct));
+    }
+
+    function update(){
+      const now = Date.now();
+      let diff = target - now;
+
+      if (diff <= 0){
+        dEl.textContent = '00'; hEl.textContent = '00'; mEl.textContent = '00'; sEl.textContent = '00';
+        note.textContent = 'Lễ đã bắt đầu hoặc đã kết thúc. Hẹn gặp bạn tại hội trường!';
+        document.documentElement.style.setProperty('--pct','100%');
+        bar.style.width = '100%';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const mins = Math.floor(diff / (1000*60));
+      diff -= mins * (1000*60);
+      const secs = Math.floor(diff / 1000);
+
+      dEl.textContent = pad(days);
+      hEl.textContent = pad(hours);
+      mEl.textContent = pad(mins);
+      sEl.textContent = pad(secs);
+
+      const pct = dayProgress(now).toFixed(2) + '%';
+      document.documentElement.style.setProperty('--pct', pct);
+      bar.style.width = pct;
+
+    }
+
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
