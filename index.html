@@ -8,6 +8,80 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
+  /* Viền đổi màu liên tục quanh card */
+  .card {
+    border: 3px solid transparent;
+    background-image: linear-gradient(white, white), 
+      linear-gradient(90deg, gold, pink, cyan, gold);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    animation: borderShift 6s linear infinite;
+  }
+  @keyframes borderShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Ảnh xoay nhẹ khi hover */
+  .card img:hover {
+    transform: scale(1.05) rotate(2deg);
+    animation: imgShake 0.4s ease-in-out;
+  }
+  @keyframes imgShake {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
+
+  /* Tiêu đề bay vào */
+  h1 {
+    animation: flyIn 1.5s ease-out;
+  }
+  @keyframes flyIn {
+    from { opacity: 0; transform: translateY(-50px) scale(0.8); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Trái tim bay */
+  .hearts {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+  }
+  .hearts span {
+    position: absolute;
+    bottom: 0;
+    font-size: 20px;
+    animation: heartFly 4s linear forwards;
+    opacity: 0.8;
+  }
+  @keyframes heartFly {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Pháo hoa */
+  .firework {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: transparent;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes explode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+  }
+</style>
+
+<div class="hearts"></div>
+  <style>
     :root{ --gold:#d4af37; --gold-soft:#ffdf7f; }
     body {
       font-family: 'Playfair Display', serif;
@@ -55,6 +129,81 @@
     @keyframes pulse{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.02)} }
     .info strong{ color:#8b6a00 }
     .footer{ margin-top:24px; font-size:15px; color:#5e5e5e; font-style:italic; animation:fadeIn 3.2s ease-in-out }
+      body {
+    animation: bgMove 15s ease-in-out infinite;
+    background-size: 400% 400%;
+  }
+  @keyframes bgMove {
+    0% { background: radial-gradient(circle at top, #fff9ec, #f3ede4); }
+    50% { background: radial-gradient(circle at bottom, #fff4e1, #f0e3d1); }
+    100% { background: radial-gradient(circle at top, #fff9ec, #f3ede4); }
+  }
+
+  /* Chữ tiêu đề lấp lánh */
+  h1 {
+    background: linear-gradient(90deg, #946800, #d4af37, #946800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300%;
+    animation: shimmer 5s infinite linear;
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% }
+    100% { background-position: 300% }
+  }
+
+  /* Hover ảnh phóng to và sáng */
+  .card img {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .card img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+
+  /* Glow xoay quanh ảnh */
+  .photo-glow {
+    position: relative;
+  }
+  .photo-glow::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 20px;
+    border: 2px solid gold;
+    animation: rotateGlow 6s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes rotateGlow {
+    0% { transform: rotate(0deg); box-shadow: 0 0 10px gold; }
+    50% { transform: rotate(180deg); box-shadow: 0 0 20px orange; }
+    100% { transform: rotate(360deg); box-shadow: 0 0 10px gold; }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .confetti span {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: gold;
+    animation: fall linear forwards;
+    opacity: 0.8;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+    }
+  }
   </style>
 </head>
 <body>
@@ -172,6 +321,52 @@
 
     update();
     setInterval(update, 1000);
+    
+      const confettiContainer = document.querySelector('.confetti');
+  for (let i = 0; i < 40; i++) {
+    let span = document.createElement('span');
+    span.style.left = Math.random() * 100 + "%";
+    span.style.top = -10 + "px";
+    span.style.backgroundColor = ['gold', '#ff6f61', '#ffdf7f', '#a7ff83'][Math.floor(Math.random()*4)];
+    span.style.animationDuration = 3 + Math.random() * 5 + "s";
+    span.style.transform = `rotate(${Math.random()*360}deg)`;
+    confettiContainer.appendChild(span);
+  }
   </script>
+  <script>
+  // Trái tim bay ngẫu nhiên
+  setInterval(() => {
+    const heartContainer = document.querySelector('.hearts');
+    const heart = document.createElement('span');
+    heart.textContent = ['❤️', '💛', '💙', '💜', '🧡'][Math.floor(Math.random()*5)];
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = 14 + Math.random()*20 + "px";
+    heartContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 800);
+
+  // Pháo hoa khi countdown về 0
+  function launchFirework(x, y) {
+    for (let i = 0; i < 30; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'firework';
+      dot.style.left = x + "px";
+      dot.style.top = y + "px";
+      dot.style.background = ['#ff0', '#f0f', '#0ff', '#fff', '#ff6347'][Math.floor(Math.random()*5)];
+      dot.style.transform = `translate(${Math.cos(i*12)*50}px, ${Math.sin(i*12)*50}px)`;
+      document.body.appendChild(dot);
+      setTimeout(() => dot.remove(), 1000);
+    }
+  }
+
+  // Hook vào hàm update() của bạn
+  const oldUpdate = update;
+  update = function() {
+    oldUpdate();
+    if (dEl.textContent === '00' && hEl.textContent === '00' && mEl.textContent === '00' && sEl.textContent === '00') {
+      launchFirework(window.innerWidth/2, window.innerHeight/2);
+    }
+  }
+</script>
 </body>
 </html>
